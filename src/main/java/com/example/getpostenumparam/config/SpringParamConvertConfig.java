@@ -1,7 +1,9 @@
 package com.example.getpostenumparam.config;
 
-import com.example.getpostenumparam.spring.deserializer.GenderEnumConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -11,10 +13,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  */
 @Configuration
 public class SpringParamConvertConfig extends WebMvcConfigurationSupport {
+
+    @Autowired
+    private ApplicationContext context;
+
     @Override
     protected void addFormatters(FormatterRegistry registry) {
         super.addFormatters(registry);
-
-        registry.addConverter(new GenderEnumConverter());
+        context.getBeansOfType(Converter.class).values().forEach(registry::addConverter);
     }
 }
