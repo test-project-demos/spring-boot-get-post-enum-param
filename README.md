@@ -1,4 +1,4 @@
-![project-language](https://img.shields.io/badge/language-java-orange.svg) [![Travis CI status](https://travis-ci.com/test-project-demos/spring-boot-get-post-enum-param.svg?branch=master)](https://travis-ci.com/test-project-demos/spring-boot-get-post-enum-param)
+![project-language](https://img.shields.io/badge/language-java-orange.svg) [![Travis CI status](https://travis-ci.com/test-project-demos/spring-boot-get-post-enum-param.svg?branch=master)](https://travis-ci.com/test-project-demos/spring-boot-get-post-enum-param) [![Coverage Status](https://coveralls.io/repos/github/test-project-demos/spring-boot-get-post-enum-param/badge.svg?branch=master)](https://coveralls.io/github/test-project-demos/spring-boot-get-post-enum-param?branch=master)
 
 # Spring Boot: 如何处理 GET 或 POST 请求中枚举类型的参数?
 
