@@ -51,21 +51,25 @@ public GenderEnum getOrPostEnum(GenderEnum gender) {
 4. `POST` 方法(以 `form` 格式提交参数), 有个自定义类型参数, 该自定义类型包含枚举字段;
 5. `POST` 方法(以 `json` 格式提交参数), 是一个自定义类型参数;
 
-其中, 前四种情况基本一致, 是同一种形式的不同变种, 解决方案一致: 通过重载 `org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport#addFormatters` 方法, 让 Spring 支持自己写的转换器. 示例:
+其中, 前四种情况基本一致, 是同一种形式的不同变种, 解决方案一致: 
+
+1. 实现 Spring 提供转换器接口 `org.springframework.core.convert.converter.Converter`;
+2. 为其添加注解 `@Component`;
+
+搞定! Spring Boot 在启动时就会自动获取并加载 `Converter` 类型的 bean, [点此查看相关代码](https://github.com/spring-projects/spring-boot/blob/v2.1.0.RELEASE/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/web/servlet/WebMvcAutoConfiguration.java#L310).
+
+示例代码:
 
 ```java
-import com.example.getpostenumparam.spring.deserializer.GenderEnumConverter;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import com.example.getpostenumparam.type.GenderEnum;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-@Configuration
-public class SpringParamConvertConfig extends WebMvcConfigurationSupport {
+@Component
+public class GenderEnumConverter implements Converter<String, GenderEnum> {
     @Override
-    protected void addFormatters(FormatterRegistry registry) {
-        super.addFormatters(registry);
-
-        registry.addConverter(new GenderEnumConverter());
+    public GenderEnum convert(String value) {
+        return GenderEnum.of(Integer.valueOf(value));
     }
 }
 ```
